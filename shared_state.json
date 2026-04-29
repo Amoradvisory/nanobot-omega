@@ -1,0 +1,123 @@
+{
+  "timestamp": 1777416951.0606003,
+  "global": {
+    "cooldown_until": 0.0,
+    "cooldown_reason": "",
+    "cooldown_until_hhmm": "",
+    "cooldown_until_local": ""
+  },
+  "global_cooldown_until": 0.0,
+  "global_cooldown_reason": "",
+  "instances": {
+    "A": {
+      "total_calls": 56,
+      "total_errors": 15,
+      "total_tokens": 0,
+      "avg_latency_ms": 51361.60088561506,
+      "consecutive_errors": 3,
+      "blacklisted_until": 1777394218.3906999,
+      "last_error": 1777394098.3906972,
+      "last_error_msg": "Timeout",
+      "last_used": 1777394098.3906996
+    },
+    "B": {
+      "total_calls": 384,
+      "total_errors": 94,
+      "total_tokens": 0,
+      "avg_latency_ms": 35245.14358989592,
+      "consecutive_errors": 5,
+      "blacklisted_until": 1777394369.4128578,
+      "last_error": 1777394249.4128485,
+      "last_error_msg": "Timeout",
+      "last_used": 1777394249.4128575
+    },
+    "C": {
+      "total_calls": 305,
+      "total_errors": 85,
+      "total_tokens": 0,
+      "avg_latency_ms": 25276.76569163017,
+      "consecutive_errors": 2,
+      "blacklisted_until": 1777398090.6041374,
+      "last_error": 1777351717.6079276,
+      "last_error_msg": "Error: QUOTA_EXHAUSTED (reset after 12h52m48s)",
+      "last_used": 1777351717.6079304
+    },
+    "D": {
+      "total_calls": 268,
+      "total_errors": 36,
+      "total_tokens": 0,
+      "avg_latency_ms": 28835.549445809207,
+      "consecutive_errors": 0,
+      "blacklisted_until": 0.0,
+      "last_error": 1777414317.3638391,
+      "last_error_msg": "",
+      "last_used": 1777416951.05857
+    },
+    "E": {
+      "total_calls": 349,
+      "total_errors": 100,
+      "total_tokens": 0,
+      "avg_latency_ms": 31741.497007842743,
+      "consecutive_errors": 1,
+      "blacklisted_until": 1777398494.6960511,
+      "last_error": 1777398374.696046,
+      "last_error_msg": "Timeout",
+      "last_used": 1777398374.6960506
+    },
+    "F": {
+      "total_calls": 379,
+      "total_errors": 99,
+      "total_tokens": 0,
+      "avg_latency_ms": 26947.824457568215,
+      "consecutive_errors": 7,
+      "blacklisted_until": 1777436945.2902987,
+      "last_error": 1777364201.2902968,
+      "last_error_msg": "Error: QUOTA_EXHAUSTED (reset after 20h12m19s)",
+      "last_used": 1777364201.2902982
+    },
+    "G": {
+      "total_calls": 263,
+      "total_errors": 79,
+      "total_tokens": 0,
+      "avg_latency_ms": 20766.564301760827,
+      "consecutive_errors": 14,
+      "blacklisted_until": 1777414912.9316254,
+      "last_error": 1777393312.9316227,
+      "last_error_msg": "Warning: Windows 10 detected. Some UI features like smooth scrolling may be degraded. Windows 11 is recommended for the best experience. Warning: 256-color support not detected. Using a terminal with ",
+      "last_used": 1777393312.931625
+    },
+    "H": {
+      "total_calls": 422,
+      "total_errors": 102,
+      "total_tokens": 0,
+      "avg_latency_ms": 32745.527248807874,
+      "consecutive_errors": 4,
+      "blacklisted_until": 1777438138.0114825,
+      "last_error": 1777362370.0140564,
+      "last_error_msg": "Error: QUOTA_EXHAUSTED (reset after 21h2m43s)",
+      "last_used": 1777362370.0140576
+    },
+    "I": {
+      "total_calls": 26,
+      "total_errors": 8,
+      "total_tokens": 0,
+      "avg_latency_ms": 58463.853728452625,
+      "consecutive_errors": 2,
+      "blacklisted_until": 1777413875.4115915,
+      "last_error": 1777392275.4115891,
+      "last_error_msg": "Warning: Windows 10 detected. Some UI features like smooth scrolling may be degraded. Windows 11 is recommended for the best experience. Warning: 256-color support not detected. Using a terminal with ",
+      "last_used": 1777392275.411591
+    },
+    "J": {
+      "total_calls": 12,
+      "total_errors": 7,
+      "total_tokens": 0,
+      "avg_latency_ms": 25450.584379999782,
+      "consecutive_errors": 7,
+      "blacklisted_until": 1777394520.433745,
+      "last_error": 1777394400.433743,
+      "last_error_msg": "Timeout",
+      "last_used": 1777394400.4337447
+    }
+  }
+}

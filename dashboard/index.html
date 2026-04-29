@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nanobot Dashboard</title>
+  <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Nanobot Omega</p>
+        <h1>Dashboard</h1>
+      </div>
+      <div class="status-pill" id="overallStatus">Chargement</div>
+    </header>
+
+    <section class="hero">
+      <div class="metric strong">
+        <span class="label">Mission</span>
+        <strong id="mission">...</strong>
+      </div>
+      <div class="metric">
+        <span class="label">Gateway</span>
+        <strong id="gateway">...</strong>
+      </div>
+      <div class="metric">
+        <span class="label">Watchdog</span>
+        <strong id="watchdog">...</strong>
+      </div>
+      <div class="metric">
+        <span class="label">Ollama</span>
+        <strong id="ollama">...</strong>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Systeme</h2>
+        <div class="rows" id="systemRows"></div>
+      </article>
+      <article class="panel">
+        <h2>Taches</h2>
+        <div class="rows" id="taskRows"></div>
+      </article>
+      <article class="panel">
+        <h2>Index Local</h2>
+        <div class="rows" id="indexRows"></div>
+      </article>
+      <article class="panel">
+        <h2>Logs</h2>
+        <div class="logbox" id="logRows"></div>
+      </article>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+{
+  "timestamp": 1776647194.5454018,
+  "global": {
+    "cooldown_until": 0.0,
+    "cooldown_reason": "",
+    "cooldown_until_hhmm": "",
+    "cooldown_until_local": ""
+  },
+  "global_cooldown_until": 0.0,
+  "global_cooldown_reason": "",
+  "instances": {
+    "A": {
+      "total_calls": 218,
+      "total_errors": 65,
+      "total_tokens": 0,
+      "avg_latency_ms": 20493.923799533975,
+      "consecutive_errors": 4,
+      "blacklisted_until": 0.0,
+      "last_error": 1776621386.6136909,
+      "last_error_msg": "<--- Last few GCs ---> [9020:000002C138EA5000]       80 ms: Scavenge 6.4 (8.0) -> 6.1 (8.5) MB, pooled: 0 MB, 1.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; [9020:000002C138EA5000]    ",
+      "last_used": 1776621386.6136918
+    },
+    "B": {
+      "total_calls": 271,
+      "total_errors": 70,
+      "total_tokens": 0,
+      "avg_latency_ms": 28779.230813271613,
+      "consecutive_errors": 3,
+      "blacklisted_until": 0.0,
+      "last_error": 1776641174.1850274,
+      "last_error_msg": "Timeout",
+      "last_used": 1776641174.18503
+    },
+    "C": {
+      "total_calls": 231,
+      "total_errors": 70,
+      "total_tokens": 0,
+      "avg_latency_ms": 18191.78622853812,
+      "consecutive_errors": 2,
+      "blacklisted_until": 1776675077.9851341,
+      "last_error": 1776622501.987423,
+      "last_error_msg": "Error: QUOTA_EXHAUSTED (reset after 14h36m16s)",
+      "last_used": 1776622501.9874237
+    },
+    "D": {
+      "total_calls": 202,
+      "total_errors": 16,
+      "total_tokens": 0,
+      "avg_latency_ms": 25623.80021772889,
+      "consecutive_errors": 2,
+      "blacklisted_until": 1776644419.8413079,
+      "last_error": 1776644299.8413043,
+      "last_error_msg": "Timeout",
+      "last_used": 1776644299.8413072
+    },
+    "E": {
+      "total_calls": 251,
+      "total_errors": 65,
+      "total_tokens": 0,
+      "avg_latency_ms": 27985.172646010575,
+      "consecutive_errors": 4,
+      "blacklisted_until": 0.0,
+      "last_error": 1776621420.2726526,
+      "last_error_msg": "# # Fatal error in , line 0 # Out of memory: HashMap::Initialize # # # #FailureMessage Object: 000000937D9FBE50 ----- Native stack trace ----- 1: 00007FF7B147BA4B 2: 00007FF7B136163F 3: 00007FF7B25250",
+      "last_used": 1776621420.2726538
+    },
+    "F": {
+      "total_calls": 243,
+      "total_errors": 67,
+      "total_tokens": 0,
+      "avg_latency_ms": 19264.696006246548,
+      "consecutive_errors": 5,
+      "blacklisted_until": 0.0,
+      "last_error": 1776641476.254357,
+      "last_error_msg": "Timeout",
+      "last_used": 1776641476.254359
+    },
+    "G": {
+      "total_calls": 216,
+      "total_errors": 64,
+      "total_tokens": 0,
+      "avg_latency_ms": 17135.776918458003,
+      "consecutive_errors": 5,
+      "blacklisted_until": 0.0,
+      "last_error": 1776641325.2158644,
+      "last_error_msg": "Timeout",
+      "last_used": 1776641325.2158668
+    },
+    "H": {
+      "total_calls": 323,
+      "total_errors": 70,
+      "total_tokens": 0,
+      "avg_latency_ms": 27963.9393630617,
+      "consecutive_errors": 2,
+      "blacklisted_until": 1776650794.541874,
+      "last_error": 1776647194.5453982,
+      "last_error_msg": "Error: QUOTA_EXHAUSTED (reset after 5s)",
+      "last_used": 1776647194.5454004
+    },
+    "I": {
+      "total_calls": 286,
+      "total_errors": 64,
+      "total_tokens": 0,
+      "avg_latency_ms": 23593.87759954934,
+      "consecutive_errors": 1,
+      "blacklisted_until": 1776644268.759391,
+      "last_error": 1776644148.7593877,
+      "last_error_msg": "Timeout",
+      "last_used": 1776644148.7593904
+    },
+    "J": {
+      "total_calls": 205,
+      "total_errors": 62,
+      "total_tokens": 0,
+      "avg_latency_ms": 24989.651804906873,
+      "consecutive_errors": 4,
+      "blacklisted_until": 0.0,
+      "last_error": 1776621402.021587,
+      "last_error_msg": "<--- Last few GCs ---> [14708:00000193B08E1000]       82 ms: Scavenge 6.4 (8.0) -> 6.2 (8.5) MB, pooled: 0 MB, 0.85 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; [14708:00000193B08E1000]  ",
+      "last_used": 1776621402.021589
+    }
+  }
+}

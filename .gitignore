@@ -1,0 +1,118 @@
+# ===========================================================================
+# Nanobot Omega — .gitignore
+# Strict : aucun secret, token, cache lourd, ou conversation utilisateur ne
+# doit être committé.
+# ===========================================================================
+
+# --- Secrets et tokens ---------------------------------------------------
+configs/google_credentials.json
+configs/google_token.json
+configs/*token*
+configs/*secret*
+configs/*credentials*
+config_omega.json
+instances.json
+instances_swarm.json
+**/auth_state.json
+**/.env
+**/.env.*
+**/*.token
+**/*.pem
+**/*.key
+# Tokens hardcodés découverts à l'audit 2026-04-29 — à corriger (vars d'env)
+OMEGA_WATCHTOWER.py
+watchdog_check.ps1
+# OAuth credentials d'un test home (Google access_token + refresh_token)
+light-home-test/
+**/oauth_creds.json
+
+# --- Caches lourds et profils Chrome (~17 GB total) ----------------------
+gemini-light-homes/
+shared-browser/chrome-profile/
+shared-browser/output/
+**/.nanochrome_profile/
+**/.temp_chrome_profile/
+**/AppData/
+**/.cache/
+
+# --- Backups et quarantaine ----------------------------------------------
+backups/
+**/_cleanup_quarantine*/
+**/*.bak
+**/*.bak.*
+**/*.deprecated.*
+
+# --- Logs --------------------------------------------------------------
+logs/
+**/*.log
+**/*.log.*
+
+# --- Sessions et mémoire conversationnelle (sensible utilisateur) -------
+workspace/sessions/
+workspace/memory/MEMORY.md
+workspace/temp_identity_card.md
+workspace/.gemini/
+workspace/.git/
+workspace/.nanobot/
+workspace/.gitignore
+
+# --- Données utilisateur (vault, captures, screenshots) -----------------
+workspace/INTEL/
+workspace/Cours - Copie/
+workspace/MonCommandement
+workspace/FIRE
+workspace/proactive_reports/
+workspace/resilience_reports/
+
+# --- Veille (state mutable) ---------------------------------------------
+workspace/veille_2ememain_*.json
+workspace/veille_2ememain_*.json.bak.*
+workspace/annonces_vues.json
+workspace/proactive_sources.json
+workspace/veille_lille/
+
+# --- État runtime -------------------------------------------------------
+state/
+health/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+*.pid
+
+# --- Données générées ---------------------------------------------------
+workspace/desktop_windows_snapshot.xlsx
+workspace/output/
+workspace/ad_hoc_agents/
+output/
+media/
+
+# --- Fichiers HTML jeux/dashboards (optionnels, pas du code) ------------
+workspace/*.html
+workspace/Set-Wallpaper.ps1
+
+# --- Skills externes (peuvent contenir des configs sensibles) -----------
+workspace/skills/
+workspace/heartbeat-reporter/
+workspace/nanochrome-typer/
+workspace/omega-productivity-app/
+workspace/kasparov-viewer/
+workspace/system-power/
+workspace/desktop-defaults/
+workspace/channel-semantics/
+workspace/web-and-ocr/
+workspace/telegram-mobile/
+workspace/omega-tool-operator/
+workspace/cron/
+workspace/light-home-test/
+workspace/test_vault/
+
+# --- Fichiers OS ---------------------------------------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Editeur ------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
