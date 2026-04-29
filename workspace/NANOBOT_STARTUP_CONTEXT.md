@@ -3,7 +3,7 @@
 This file is injected into Nanobot's system prompt on every conversation.
 It is regenerated at startup so Nanobot remembers its real operational powers.
 
-Generated UTC: 2026-04-29T04:30:31+00:00
+Generated UTC: 2026-04-29T04:43:48+00:00
 
 ## Prime Directive
 - Assume these capabilities exist before saying no.
@@ -30,9 +30,12 @@ Generated UTC: 2026-04-29T04:30:31+00:00
 **OBLIGATOIRE** : pour TOUTE operation Obsidian, utiliser `exec` avec le bridge :
 
 ```
-Lister tout / un dossier :
-  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list")
-  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --folder 00_Commandement")
+Lister tout / un dossier (FORMAT LISIBLE pour Telegram, JAMAIS json brut qui sera filtre) :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --md-only --format markdown")
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --folder 00_Commandement --md-only --format markdown")
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --md-only --format names")  # 1 fichier par ligne
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --md-only --format bullets")  # liste plate
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list")  # JSON pour traitement programmatique seulement
 Lire une note :
   exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py read-note --path '00_Commandement/Accueil.md'")
 Chercher :

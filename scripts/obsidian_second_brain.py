@@ -3515,6 +3515,8 @@ def main(argv: list[str] | None = None) -> int:
     list_cmd = sub.add_parser("list", help="Liste récursive du vault (ou d'un sous-dossier).")
     list_cmd.add_argument("--folder")
     list_cmd.add_argument("--pattern", default="*")
+    list_cmd.add_argument("--format", choices=["json", "markdown", "bullets", "names"], default="json", help="json (defaut) | markdown (liste a puce avec dossiers) | bullets (liste plate) | names (1 par ligne)")
+    list_cmd.add_argument("--md-only", action="store_true", help="Filtre sur les fichiers .md uniquement.")
 
     fm_cmd = sub.add_parser("set-frontmatter", help="Fusionne des clés JSON dans le frontmatter d'une note.")
     fm_cmd.add_argument("--path", required=True)
@@ -3788,7 +3790,37 @@ def main(argv: list[str] | None = None) -> int:
         except (ValueError, FileNotFoundError, NotADirectoryError) as exc:
             _emit({"ok": False, "error": str(exc)})
             return 1
-        _emit(result)
+        items = result.get("items", [])
+        if args.md_only:
+            items = [it for it in items if it.get("kind") == "file" and it["relative"].lower().endswith(".md")]
+        fmt = getattr(args, "format", "json")
+        if fmt == "json":
+            if args.md_only:
+                result = {**result, "items": items, "count": len(items)}
+            _emit(result)
+            return 0
+        if fmt == "names":
+            for it in items:
+                print(it["relative"])
+            return 0
+        if fmt == "bullets":
+            for it in items:
+                if it.get("kind") == "folder":
+                    continue
+                print(f"- {it['relative']}")
+            return 0
+        # markdown : liste a puce avec dossiers en gras
+        last_top = None
+        for it in sorted(items, key=lambda x: x["relative"]):
+            rel = it["relative"]
+            top = rel.split("/", 1)[0]
+            if top != last_top:
+                print(f"\n**{top}/**")
+                last_top = top
+            if it.get("kind") == "file":
+                indent = "  " * (rel.count("/") - 1)
+                name = rel.rsplit("/", 1)[-1] if "/" in rel else rel
+                print(f"{indent}- {name}")
         return 0
 
     if args.command == "set-frontmatter":
