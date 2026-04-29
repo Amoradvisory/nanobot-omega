@@ -3,7 +3,7 @@
 This file is injected into Nanobot's system prompt on every conversation.
 It is regenerated at startup so Nanobot remembers its real operational powers.
 
-Generated UTC: 2026-04-27T11:56:59+00:00
+Generated UTC: 2026-04-29T04:10:04+00:00
 
 ## Prime Directive
 - Assume these capabilities exist before saying no.
@@ -28,7 +28,7 @@ Generated UTC: 2026-04-27T11:56:59+00:00
 - Use the bridge for capture, search, import, daily notes, relations, metadata, attachments, and memory sync.
 
 ## Google Workspace
-- OAuth valid: False
+- OAuth valid: True
 - Refresh token: True
 - Required scopes present: True
 - Gmail modify active: True

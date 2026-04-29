@@ -4,7 +4,7 @@
 > `python C:/AI/nanobot-omega/scripts/capabilities_registry.py`.
 > Ne pas editer a la main.
 
-Genere : 2026-04-28T22:42:05+00:00
+Genere : 2026-04-29T04:10:05+00:00
 Total : 67 capacites
 
 ## Par statut

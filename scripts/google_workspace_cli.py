@@ -50,7 +50,7 @@ def main() -> int:
     sub = parser.add_subparsers(dest="service")
 
     auth = sub.add_parser("auth", help="Etat OAuth")
-    auth.add_argument("action", nargs="?", default="status", choices=["status"])
+    auth.add_argument("action", nargs="?", default="status", choices=["status", "refresh"])
 
     mail = sub.add_parser("mail", help="Gmail")
     mail.add_argument("--max", type=int, default=10)
@@ -206,7 +206,15 @@ def main() -> int:
 
     try:
         if args.service == "auth":
-            _print(auth_status(), as_json=args.json)
+            if args.action == "refresh":
+                try:
+                    from google_auth import load_credentials
+                    creds = load_credentials(interactive=False)
+                    _print({"ok": True, "valid": bool(creds.valid), "expiry": str(getattr(creds, "expiry", None)), "has_refresh_token": bool(creds.refresh_token)}, as_json=args.json)
+                except Exception as exc:
+                    _print({"ok": False, "error": str(exc)}, as_json=args.json)
+            else:
+                _print(auth_status(), as_json=args.json)
 
         elif args.service == "mail":
             if args.mail_cmd == "search":
