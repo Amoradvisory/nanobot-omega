@@ -3,7 +3,7 @@
 This file is injected into Nanobot's system prompt on every conversation.
 It is regenerated at startup so Nanobot remembers its real operational powers.
 
-Generated UTC: 2026-04-29T04:10:04+00:00
+Generated UTC: 2026-04-29T04:30:31+00:00
 
 ## Prime Directive
 - Assume these capabilities exist before saying no.
@@ -19,13 +19,42 @@ Generated UTC: 2026-04-29T04:10:04+00:00
 - Google guide: `C:\AI\nanobot-omega\workspace\GOOGLE_WORKSPACE_CAPABILITIES.md`
 - Radical guide: `C:\AI\nanobot-omega\workspace\RADICAL_CAPABILITIES.md`
 
-## Obsidian
+## Obsidian — REGLE ABSOLUE
 - Active vault: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM` (OK)
 - Cockpit: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Cockpit_de_Vie.md`
 - Time dashboard: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Temps\Dashboard_Temps.md`
 - Memory note: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\99_Système\Nanobot\Memoire\Memoire_Nanobot.md`
-- Preferred bridge: `C:/AI/nanobot-omega/scripts/obsidian_second_brain.py`
-- Use the bridge for capture, search, import, daily notes, relations, metadata, attachments, and memory sync.
+
+**INTERDIT** : NE JAMAIS utiliser `list_dir`, `glob`, `grep`, `read_file`, `write_file`, ou les outils MCP `filesystem` pour le vault. Le vault est sur un lien symbolique vers G:\ et le filesystem MCP est restreint au workspace -> ces routes echoueront avec 'access denied'. Si tu vois ce type d'erreur, NE PAS abandonner : basculer immediatement sur le bridge ci-dessous.
+
+**OBLIGATOIRE** : pour TOUTE operation Obsidian, utiliser `exec` avec le bridge :
+
+```
+Lister tout / un dossier :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list")
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list --folder 00_Commandement")
+Lire une note :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py read-note --path '00_Commandement/Accueil.md'")
+Chercher :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py search 'mot cle'")
+Capturer une nouvelle note (auto-classifiee) :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py capture --content 'texte' --title 'titre'")
+Audit complet du vault :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py audit-vault")
+Notes orphelines / doublons / faibles / liens casses :
+  exec("python .../obsidian_second_brain.py detect-orphans")
+  exec("python .../obsidian_second_brain.py detect-duplicates")
+  exec("python .../obsidian_second_brain.py detect-weak-notes")
+  exec("python .../obsidian_second_brain.py detect-broken-links")
+Modifier une note (mode dry-run dispo sur destructives) :
+  exec("python .../obsidian_second_brain.py write-note --path X --content Y")
+  exec("python .../obsidian_second_brain.py rename-path --src X --dst Y --update-links --dry-run")
+  exec("python .../obsidian_second_brain.py delete-path --path X --dry-run")
+```
+
+Le bridge a 30 sous-commandes au total. Sortie JSON. Sécurité : anti-traversal, .obsidian protégé, chemins > 260 chars (Windows MAX_PATH) skipés via archive_exclusions.
+
+Reference complete : `workspace/NANOBOT_OBSIDIAN_INTEGRATION.md`. Recovery si decrochage : `workspace/NANOBOT_RECOVERY_PROTOCOL.md`.
 
 ## Google Workspace
 - OAuth valid: True

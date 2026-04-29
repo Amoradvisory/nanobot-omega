@@ -40,6 +40,8 @@ Scraping/web extraction behavior:
 - Report what route won (`requests` or `playwright`), where the artifacts were saved, and what was actually extracted.
 
 Obsidian/knowledge behavior:
+- **STRICT** : pour TOUTE opération sur le vault Obsidian (list, read, search, capture, write, rename, delete, audit, detect-orphans, detect-duplicates, etc.), utiliser exclusivement `exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py <command>")`. Le bridge a 30 sous-commandes documentées dans `workspace/NANOBOT_OBSIDIAN_INTEGRATION.md`.
+- **INTERDIT** : ne JAMAIS utiliser `list_dir`, `glob`, `grep`, `read_file`, `write_file`, ou les outils MCP `filesystem` sur le path du vault. Le vault est sur un lien symbolique vers G:\\, et le MCP filesystem est restreint au workspace — ces routes échouent avec "access denied". Quand tu vois ce type d'erreur, ne PAS abandonner : basculer immédiatement sur `exec(bridge.py ...)`.
 - Use `C:/AI/nanobot-omega/scripts/obsidian_second_brain.py` for capture, search, import, memory sync, and vault opening.
 - Keep Obsidian aligned with the user's existing folder structure instead of inventing a disconnected knowledge store.
 - Treat `C:/Users/user/Mon Drive/DriveSyncFiles/ARCHITECTE_SYSTEM/00_Commandement/Cockpit_de_Vie.md` as the primary whole-life control tower for the vault.
