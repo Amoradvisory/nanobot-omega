@@ -39,6 +39,15 @@ Scraping/web extraction behavior:
 - Produce durable artifacts: markdown report, json, raw html, and `.xlsx` when the page contains tables or repeated listing data.
 - Report what route won (`requests` or `playwright`), where the artifacts were saved, and what was actually extracted.
 
+Browser & web behavior:
+- **Strategie de choix** (du moins couteux au plus couteux) : API officielle > requests/scraping_champion HTTP > scraping_champion Playwright auto-fallback > Open-Shared-Nanobot-Browser.bat (Chrome visible) + browser_automation > desktop_automation + OCR (dernier recours).
+- **Lanceur Chrome** : TOUJOURS via `Open-Shared-Nanobot-Browser.bat "URL"` (ouvre un onglet, profil partage, sessions persistees). NE JAMAIS lancer chrome.exe directement, NE JAMAIS utiliser `--new-window`.
+- **Scraping** : `python C:/AI/nanobot-omega/scripts/scraping_champion.py scrape "URL"`. Output durable dans `~/Desktop/Nanobot_Scrapes/`. Verifier route utilisee (HTTP/Playwright) + nombre items extraits avant de repondre.
+- **Veilles** : Windows Task Scheduler + scripts deterministes (zero LLM dans le hot path). Veille 2ememain : `python workspace/veille_2ememain_control.py status|run|50km|100km`. Pause/resume necessite admin.
+- **Diagnostic** : `python scripts/nanobot_self_check.py check` couvre Chrome, Playwright, scraping_champion, NanobotVeille2ememain (etat + sante des logs).
+- **Verification obligatoire** apres action navigateur : URL finale, titre page, element visible, screenshot, fichier telechargee + size, count items extraits, code 200 retour Telegram. Ne JAMAIS dire "c'est fait" sans preuve.
+- **Reference** : `workspace/NANOBOT_BROWSER_CAPABILITIES.md`, `workspace/NANOBOT_2EMEMAIN_WATCH.md`.
+
 Obsidian/knowledge behavior:
 - **STRICT** : pour TOUTE opération sur le vault Obsidian (list, read, search, capture, write, rename, delete, audit, detect-orphans, detect-duplicates, etc.), utiliser exclusivement `exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py <command>")`. Le bridge a 30 sous-commandes documentées dans `workspace/NANOBOT_OBSIDIAN_INTEGRATION.md`.
 - **INTERDIT** : ne JAMAIS utiliser `list_dir`, `glob`, `grep`, `read_file`, `write_file`, ou les outils MCP `filesystem` sur le path du vault. Le vault est sur un lien symbolique vers G:\\, et le MCP filesystem est restreint au workspace — ces routes échouent avec "access denied". Quand tu vois ce type d'erreur, ne PAS abandonner : basculer immédiatement sur `exec(bridge.py ...)`.

@@ -363,6 +363,85 @@ def check_capabilities_doc_consistency() -> dict[str, Any]:
     }
 
 
+def check_chrome_installed() -> dict[str, Any]:
+    candidates = [
+        Path(r"C:/Program Files/Google/Chrome/Application/chrome.exe"),
+        Path(r"C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"),
+        Path(r"C:/Users/user/AppData/Local/Google/Chrome/Application/chrome.exe"),
+    ]
+    found = next((p for p in candidates if _safe_exists(p)), None)
+    return {
+        "name": "chrome_installed",
+        "ok": found is not None,
+        "severity": "warn" if found is None else "info",
+        "detail": f"chrome.exe = {found}" if found else "Chrome non trouvé",
+        "fix_hint": "winget install Google.Chrome" if not found else None,
+    }
+
+
+def check_playwright_runtime() -> dict[str, Any]:
+    pw_root = Path(r"C:/Users/user/AppData/Local/ms-playwright")
+    if not _safe_exists(pw_root):
+        return {"name": "playwright_runtime", "ok": False, "severity": "warn", "detail": "ms-playwright dir manquant", "fix_hint": "python -m playwright install chromium"}
+    chromium_dirs = [d for d in pw_root.iterdir() if d.is_dir() and d.name.startswith("chromium-")]
+    if not chromium_dirs:
+        return {"name": "playwright_runtime", "ok": False, "severity": "warn", "detail": "Aucun chromium dans ms-playwright", "fix_hint": "python -m playwright install chromium"}
+    rc, _, err = _run([sys.executable, "-c", "import playwright; print(playwright.__version__ if hasattr(playwright,'__version__') else 'ok')"], timeout=10)
+    return {
+        "name": "playwright_runtime",
+        "ok": rc == 0,
+        "severity": "info" if rc == 0 else "warn",
+        "detail": f"chromium dirs: {[d.name for d in chromium_dirs[:3]]}, py module rc={rc}" + (f", err={err[:80]}" if rc != 0 else ""),
+        "fix_hint": "pip install playwright && python -m playwright install chromium" if rc != 0 else None,
+    }
+
+
+def check_scraping_champion() -> dict[str, Any]:
+    script = SCRIPTS / "scraping_champion.py"
+    if not _safe_exists(script):
+        return {"name": "scraping_champion", "ok": False, "severity": "error", "detail": "scraping_champion.py absent", "fix_hint": "Restaurer depuis backups/"}
+    rc, out, err = _run([sys.executable, str(script), "--help"], timeout=15)
+    return {
+        "name": "scraping_champion",
+        "ok": rc == 0,
+        "severity": "info" if rc == 0 else "warn",
+        "detail": f"--help rc={rc}" + (f", err={err[:100]}" if rc != 0 else ""),
+        "fix_hint": "Verifier requests, beautifulsoup4, playwright dependances" if rc != 0 else None,
+    }
+
+
+def check_veille_2ememain_task() -> dict[str, Any]:
+    rc, out, err = _run(["powershell", "-NoProfile", "-Command", "Get-ScheduledTask -TaskName NanobotVeille2ememain -ErrorAction SilentlyContinue | Select-Object -ExpandProperty State"], timeout=15)
+    state = (out or "").strip()
+    if not state:
+        return {"name": "veille_2ememain_task", "ok": False, "severity": "error", "detail": "Tache NanobotVeille2ememain absente", "fix_hint": "schtasks /Create avec wrapper bat (admin)"}
+    if state.lower() == "disabled":
+        return {"name": "veille_2ememain_task", "ok": False, "severity": "warn", "detail": "Tache DISABLED (pause)", "fix_hint": "veille2 resume (admin requis)"}
+    return {"name": "veille_2ememain_task", "ok": True, "severity": "info", "detail": f"State = {state}", "fix_hint": None}
+
+
+def check_veille_2ememain_health() -> dict[str, Any]:
+    log_path = OMEGA / "logs" / "veille_direct.log"
+    if not _safe_exists(log_path):
+        return {"name": "veille_2ememain_health", "ok": False, "severity": "warn", "detail": "veille_direct.log absent", "fix_hint": "Lancer une fois la veille manuellement"}
+    try:
+        text = log_path.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return {"name": "veille_2ememain_health", "ok": False, "severity": "warn", "detail": "Log unreadable", "fix_hint": None}
+    lines = text.splitlines()[-200:]
+    runs = [line for line in lines if "=== START run_veille_and_notify" in line]
+    fails = [line for line in lines if "Scraper failed" in line or "FATAL" in line or "UNHANDLED" in line]
+    last_send = next((line for line in reversed(lines) if "Telegram send: OK" in line), None)
+    last_run = runs[-1] if runs else None
+    if last_run is None:
+        return {"name": "veille_2ememain_health", "ok": False, "severity": "warn", "detail": "Aucun run dans les logs récents", "fix_hint": "veille2 run"}
+    detail = f"runs récents: {len(runs)}, échecs: {len(fails)}, dernier run: {last_run[1:21]}"
+    if last_send:
+        detail += f", dernière notif Telegram OK: {last_send[1:21]}"
+    severity = "warn" if len(fails) >= 3 else "info"
+    return {"name": "veille_2ememain_health", "ok": len(fails) < 3, "severity": severity, "detail": detail, "fix_hint": "Voir logs/veille_direct.log et schtasks /Query /TN NanobotVeille2ememain /V" if len(fails) >= 3 else None}
+
+
 def check_built_in_tools_audit() -> dict[str, Any]:
     audit = HEALTH / "tools_audit.json"
     if not _safe_exists(audit):
@@ -399,6 +478,11 @@ CHECKS: list[Callable[[], dict[str, Any]]] = [
     check_memory_dedup,
     check_capabilities_doc_consistency,
     check_built_in_tools_audit,
+    check_chrome_installed,
+    check_playwright_runtime,
+    check_scraping_champion,
+    check_veille_2ememain_task,
+    check_veille_2ememain_health,
 ]
 
 
