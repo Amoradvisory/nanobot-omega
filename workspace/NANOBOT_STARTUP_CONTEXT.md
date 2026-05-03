@@ -3,7 +3,7 @@
 This file is injected into Nanobot's system prompt on every conversation.
 It is regenerated at startup so Nanobot remembers its real operational powers.
 
-Generated UTC: 2026-04-29T12:12:19+00:00
+Generated UTC: 2026-05-03T09:44:41+00:00
 
 ## Prime Directive
 - Assume these capabilities exist before saying no.
@@ -20,7 +20,7 @@ Generated UTC: 2026-04-29T12:12:19+00:00
 - Radical guide: `C:\AI\nanobot-omega\workspace\RADICAL_CAPABILITIES.md`
 
 ## Obsidian — REGLE ABSOLUE
-- Active vault: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM` (OK)
+- Active vault: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM` (MISSING)
 - Cockpit: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Cockpit_de_Vie.md`
 - Time dashboard: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Temps\Dashboard_Temps.md`
 - Memory note: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\99_Système\Nanobot\Memoire\Memoire_Nanobot.md`

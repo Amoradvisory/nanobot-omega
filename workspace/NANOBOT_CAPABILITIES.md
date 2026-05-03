@@ -4,20 +4,21 @@
 > `python C:/AI/nanobot-omega/scripts/capabilities_registry.py`.
 > Ne pas editer a la main.
 
-Genere : 2026-04-29T04:10:05+00:00
-Total : 67 capacites
+Genere : 2026-05-03T10:00:44+00:00
+Total : 84 capacites
 
 ## Par statut
 - broken: 2
 - disabled: 1
-- ok: 64
+- ok: 81
 
 ## Par categorie
 - builtin_tools: 17
 - obsidian: 24
-- operational: 13
+- operational: 20
 - google_workspace: 8
 - mcp_servers: 5
+- browser: 10
 
 ## Categorie : builtin_tools
 
@@ -87,6 +88,13 @@ Total : 67 capacites
 | `nanobot_self_check` | ok | safe | oui | non | Health-check + recovery |
 | `capabilities_registry` | ok | safe | non | non | Registre central des capacites (ce script) |
 | `tools_audit` | ok | safe | oui | non | Audit runtime des tools natifs |
+| `workspace_cleanup` | ok | moderate | non | oui | Inventaire + quarantaine workspace |
+| `dedup_memory` | ok | safe | non | non | Deduplique MEMORY.md |
+| `test_obsidian_bridge` | ok | safe | oui | non | Tests E2E anti-regression bridge Obsidian (15 cas) |
+| `tasks_control` | ok | moderate | non | oui | Gestion tasks Windows Nanobot (list/health/run/pause/resume/logs) |
+| `veille_2ememain_control` | ok | moderate | non | oui | Pilotage veille 2ememain (status/health/run/Xkm/test-notification) |
+| `run_veille_2ememain` | ok | safe | oui | non | Scraper Playwright 2ememain (deterministe, sans LLM) |
+| `run_veille_and_notify` | ok | moderate | non | non | Orchestrateur veille + notif Telegram enrichie (photo/distance/scoring/NL) |
 
 ## Categorie : google_workspace
 

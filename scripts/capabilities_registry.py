@@ -126,6 +126,27 @@ OPERATIONAL_SCRIPTS = [
     ("nanobot_self_check", "scripts/nanobot_self_check.py", "Health-check + recovery", True, False, "safe"),
     ("capabilities_registry", "scripts/capabilities_registry.py", "Registre central des capacites (ce script)", False, False, "safe"),
     ("tools_audit", "scripts/tools_audit.py", "Audit runtime des tools natifs", True, False, "safe"),
+    ("workspace_cleanup", "scripts/workspace_cleanup.py", "Inventaire + quarantaine workspace", False, True, "moderate"),
+    ("dedup_memory", "scripts/dedup_memory.py", "Deduplique MEMORY.md", False, False, "safe"),
+    ("test_obsidian_bridge", "scripts/test_obsidian_bridge.py", "Tests E2E anti-regression bridge Obsidian (15 cas)", True, False, "safe"),
+    ("tasks_control", "scripts/tasks_control.py", "Gestion tasks Windows Nanobot (list/health/run/pause/resume/logs)", False, True, "moderate"),
+    ("veille_2ememain_control", "workspace/veille_2ememain_control.py", "Pilotage veille 2ememain (status/health/run/Xkm/test-notification)", False, True, "moderate"),
+    ("run_veille_2ememain", "workspace/run_veille_2ememain.py", "Scraper Playwright 2ememain (deterministe, sans LLM)", True, False, "safe"),
+    ("run_veille_and_notify", "workspace/run_veille_and_notify.py", "Orchestrateur veille + notif Telegram enrichie (photo/distance/scoring/NL)", False, False, "moderate"),
+]
+
+BROWSER_CAPABILITIES = [
+    # name, description, read_only, requires_confirmation, risk_level, status_check
+    ("browser.chrome_launcher", "Ouvre un onglet Chrome dans le profil partage (sessions persistees, anti-timeout)", False, False, "safe", "C:/AI/nanobot-omega/Open-Shared-Nanobot-Browser.bat"),
+    ("browser.chrome_executable", "Detection chrome.exe pour Playwright/CDP", True, False, "safe", "C:/Program Files/Google/Chrome/Application/chrome.exe"),
+    ("browser.playwright_chromium", "Chromium headless installe (chromium-1208) pour scraping JS-heavy", True, False, "safe", "C:/Users/user/AppData/Local/ms-playwright/chromium-1208"),
+    ("browser.playwright_firefox", "Firefox alternatif via Playwright", True, False, "safe", "C:/Users/user/AppData/Local/ms-playwright/firefox-1509"),
+    ("browser.shared_chrome_profile", "Profil Chrome partage (sessions Google/Notion/2ememain persistees)", True, False, "safe", "C:/AI/nanobot-omega/shared-browser/chrome-profile"),
+    ("browser.cdp_debug_port", "Port CDP 9222 pour browser_automation natif (debugging Chrome ouvert)", False, False, "moderate", "9222"),
+    ("scraping.scraping_champion", "Scraping general (HTTP + Playwright fallback) avec export xlsx/md/json", True, False, "safe", "scripts/scraping_champion.py"),
+    ("watch.veille_2ememain", "Veille 2ememain : objets gratuits autour de Mouscron 50km, NL+FR, Telegram enrichi photo/distance/score", False, False, "safe", "workspace/run_veille_and_notify.py"),
+    ("watch.translation_cache", "Cache de traduction Google Translate gratuite NL->FR (persistant)", True, False, "safe", "workspace/veille_2ememain_translation_cache.json"),
+    ("watch.health_journal", "Journal de sante de la veille (last 20 runs, 3-fail alert auto Telegram)", True, False, "safe", "logs/veille_health.json"),
 ]
 
 GOOGLE_WORKSPACE_FAMILIES = [
@@ -292,14 +313,38 @@ def _build_mcp_capabilities() -> list[dict[str, Any]]:
     return out
 
 
+def _build_browser_capabilities() -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for name, desc, read_only, needs_confirm, risk, ref in BROWSER_CAPABILITIES:
+        if ref.startswith("scripts/") or ref.startswith("workspace/") or ref.startswith("logs/"):
+            status = "ok" if _exists(OMEGA / ref) else "missing"
+        elif Path(ref).is_absolute():
+            status = "ok" if _exists(Path(ref)) else "missing"
+        else:
+            status = "ok"  # port number or constant
+        out.append({
+            "name": name,
+            "category": "browser",
+            "description": desc,
+            "module": ref,
+            "read_only": read_only,
+            "requires_confirmation": needs_confirm,
+            "risk_level": risk,
+            "status": status,
+            "example": None,
+        })
+    return out
+
+
 def build_registry() -> dict[str, Any]:
     builtin = _scan_builtin_tools()
     obsidian = _build_obsidian_capabilities()
     operational = _build_operational_capabilities()
     google = _build_google_capabilities()
     mcp = _build_mcp_capabilities()
+    browser = _build_browser_capabilities()
 
-    capabilities = builtin + obsidian + operational + google + mcp
+    capabilities = builtin + obsidian + operational + google + mcp + browser
     by_status: dict[str, int] = {}
     for cap in capabilities:
         by_status[cap["status"]] = by_status.get(cap["status"], 0) + 1
@@ -313,6 +358,7 @@ def build_registry() -> dict[str, Any]:
             "operational": len(operational),
             "google_workspace": len(google),
             "mcp_servers": len(mcp),
+            "browser": len(browser),
         },
         "capabilities": capabilities,
     }
