@@ -3,7 +3,7 @@
 This file is injected into Nanobot's system prompt on every conversation.
 It is regenerated at startup so Nanobot remembers its real operational powers.
 
-Generated UTC: 2026-05-03T09:44:41+00:00
+Generated UTC: 2026-05-04T06:56:05+00:00
 
 ## Prime Directive
 - Assume these capabilities exist before saying no.
@@ -20,7 +20,7 @@ Generated UTC: 2026-05-03T09:44:41+00:00
 - Radical guide: `C:\AI\nanobot-omega\workspace\RADICAL_CAPABILITIES.md`
 
 ## Obsidian — REGLE ABSOLUE
-- Active vault: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM` (MISSING)
+- Active vault: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM` (OK)
 - Cockpit: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Cockpit_de_Vie.md`
 - Time dashboard: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\00_Commandement\Temps\Dashboard_Temps.md`
 - Memory note: `C:\Users\user\Mon Drive\DriveSyncFiles\ARCHITECTE_SYSTEM\99_Système\Nanobot\Memoire\Memoire_Nanobot.md`
@@ -38,8 +38,10 @@ Lister tout / un dossier (FORMAT LISIBLE pour Telegram, JAMAIS json brut qui ser
   exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py list")  # JSON pour traitement programmatique seulement
 Lire une note :
   exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py read-note --path '00_Commandement/Accueil.md'")
-Chercher :
-  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py search 'mot cle'")
+Chercher (FORMAT LISIBLE pour Telegram) :
+  exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py search 'mot cle' --format markdown --limit 10")
+  exec("python .../obsidian_second_brain.py search 'mot cle' --format names --limit 20")  # 1 chemin par ligne
+  exec("python .../obsidian_second_brain.py search 'mot cle'")  # text par defaut
 Capturer une nouvelle note (auto-classifiee) :
   exec("python C:/AI/nanobot-omega/scripts/obsidian_second_brain.py capture --content 'texte' --title 'titre'")
 Audit complet du vault :

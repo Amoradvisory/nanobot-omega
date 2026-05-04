@@ -3478,6 +3478,8 @@ def main(argv: list[str] | None = None) -> int:
 
     search_cmd = sub.add_parser("search")
     search_cmd.add_argument("query")
+    search_cmd.add_argument("--format", choices=["text", "markdown", "json", "names"], default="text", help="text (defaut, lisible Telegram) | markdown | json | names (1 chemin par ligne)")
+    search_cmd.add_argument("--limit", type=int, default=20)
 
     sub.add_parser("sync-memory")
     relations_cmd = sub.add_parser("relations")
@@ -3659,9 +3661,32 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "search":
         results = search_vault(config, args.query)
+        limit = getattr(args, "limit", 20)
+        results = results[:limit]
+        fmt = getattr(args, "format", "text")
         if not results:
-            print("Aucun resultat Obsidian.")
+            if fmt == "json":
+                _emit({"ok": True, "query": args.query, "count": 0, "items": []})
+            else:
+                print("Aucun resultat Obsidian.")
             return 0
+        if fmt == "json":
+            items = [{"score": score, "title": item["title"], "relative": item["relative"], "tags": item.get("tags", [])} for score, item in results]
+            _emit({"ok": True, "query": args.query, "count": len(items), "items": items})
+            return 0
+        if fmt == "names":
+            for _score, item in results:
+                print(item["relative"])
+            return 0
+        if fmt == "markdown":
+            print(f"# Recherche Obsidian : {args.query}\n")
+            print(f"**{len(results)} resultat(s) (top {limit}) :**\n")
+            for score, item in results:
+                tags = " ".join(f"#{t}" for t in (item.get("tags") or [])[:3])
+                tags_str = f" — {tags}" if tags else ""
+                print(f"- **{item['title']}** [{score}] — `{item['relative']}`{tags_str}")
+            return 0
+        # text (defaut)
         lines = [f"Recherche Obsidian: {args.query}"]
         for score, item in results:
             lines.append(f"- [{score}] {item['title']} -> {item['relative']}")
