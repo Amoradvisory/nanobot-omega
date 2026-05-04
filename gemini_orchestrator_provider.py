@@ -126,6 +126,7 @@ _HEALTH_TEXT_PATH = _OMEGA_ROOT / "health" / "omega_status.txt"
 _MISSION_TEXT_PATH = _OMEGA_ROOT / "MISSION_YOLO.md"
 _AGENT_V2_TEXT_PATH = _OMEGA_ROOT / "AGENT_V2.md"
 _STARTUP_CONTEXT_TEXT_PATH = _OMEGA_ROOT / "workspace" / "NANOBOT_STARTUP_CONTEXT.md"
+_SOUL_TEXT_PATH = _OMEGA_ROOT / "workspace" / "SOUL.md"
 _OMEGA_SCRIPTS = _OMEGA_ROOT / "scripts"
 _DASHBOARD_URL = "http://127.0.0.1:18791/dashboard/"
 _IDENTITY_PROMPT = """
@@ -656,8 +657,38 @@ class GeminiOrchestratorProvider(LLMProvider):
         return "\n\n## Startup Capability Context\n" + fallback
 
     @staticmethod
+    def _soul_prompt() -> str:
+        """SOUL.md = identite fondamentale. Charge en TOUT PREMIER, avant tout
+        le reste. Ce texte definit qui tu es au-dela des regles operationnelles.
+        Il prime sur tout ce qui suit en cas de conflit de ton/personnalite,
+        sans pour autant invalider les regles techniques (verification, securite,
+        anti-hallucination)."""
+        try:
+            if _SOUL_TEXT_PATH.exists():
+                text = _SOUL_TEXT_PATH.read_text(encoding="utf-8", errors="replace").strip()
+                if text:
+                    header = (
+                        "## SOUL — Identite fondamentale (prime sur tout)\n\n"
+                        "Le bloc qui suit est ton ame. Il definit qui tu es, ton ton, "
+                        "ton energie, ta posture envers Amor. Il s'applique a TOUTE "
+                        "reponse et n'est jamais brise. Les regles techniques "
+                        "(verification d'action, securite, anti-hallucination) "
+                        "restent actives en parallele.\n\n"
+                    )
+                    return "\n\n" + header + text
+        except Exception:
+            pass
+        return ""
+
+    @staticmethod
     def _augment_system_prompt(system_prompt: str) -> str:
         prompt = system_prompt or ""
+        # SOUL doit etre injecte EN PREMIER pour que tout le reste se construise
+        # par-dessus, et que le ton/personnalite imprenent toute reponse.
+        if "## SOUL — Identite fondamentale" not in prompt:
+            soul = GeminiOrchestratorProvider._soul_prompt()
+            if soul:
+                prompt = soul + (("\n\n" + prompt) if prompt else "")
         if "## Nanobot Omega Identity" not in prompt:
             prompt += "\n\n" + _IDENTITY_PROMPT
         if "## Mission YOLO" not in prompt:
